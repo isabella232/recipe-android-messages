@@ -1,13 +1,13 @@
 {
   "id": "android-messages",
   "name": "Android Messages",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Android Messages",
   "main": "index.js",
-  "author": "Daniel Weinberger",
+  "author": "Daniel Weinberger, Stefan Malzner <stefan@adlk.io>",
   "license": "MIT",
   "config": {
-    "serviceURL": "https://messages.android.com/",
+    "serviceURL": "https://messages.google.com/web",
     "hasNotificationSound": true
   }
 }

@@ -1,8 +1,4 @@
-const { remote } = require('electron');
-
-const webContents = remote.getCurrentWebContents();
-const { session } = webContents;
-
+/* eslint-disable global-require */
 setTimeout(() => {
   const elem = document.querySelector('#af-error-container');
   if (elem && elem.innerText.toLowerCase().includes('the requested url was not found on this server')) {
@@ -12,10 +8,19 @@ setTimeout(() => {
 
 window.addEventListener('beforeunload', async () => {
   try {
-    session.flushStorageData();
-    session.clearStorageData({
-      storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
-    });
+    if (window.FranzAPI) {
+      window.FranzAPI.clearCache();
+    } else {
+      const { remote } = require('electron');
+
+      const webContents = remote.getCurrentWebContents();
+      const { session } = webContents;
+
+      session.flushStorageData();
+      session.clearStorageData({
+        storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
+      });
+    }
 
     const registrations = await window.navigator.serviceWorker.getRegistrations();
 
@@ -24,7 +29,7 @@ window.addEventListener('beforeunload', async () => {
       console.log('ServiceWorker unregistered');
     });
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 });
 
